@@ -233,9 +233,31 @@ public class Editor extends JFrame {
 	 */
 	private void handleDrag(Point p) {
 		// TODO: YOUR CODE HERE
-		if(mode == Editor.Mode.DRAW){
-
+		// In drawing mode, revise the shape as it is stretched out
+		// In moving mode, shift the object and keep track of where next step is from
+		// Be sure to refresh the canvas (repaint) if the appearance has changed
+		if (mode == Editor.Mode.DRAW) {
+			//draw
+			if (curr instanceof Rectangle) {
+				((Rectangle) curr).setCorners(drawFrom.x, drawFrom.y, p.x, p.y);
+			}
+			if (curr instanceof Ellipse) {
+				((Ellipse) curr).setCorners(drawFrom.x, drawFrom.y, p.x, p.y);
+			}
+			if (curr instanceof Segment) {
+				((Segment) curr).setEnd(p.x, p.y);
+			}
+			if (curr instanceof Polyline) {
+				((Polyline) curr).addPoint(p.x, p.y);
+			}
 		}
+		else if (mode == Editor.Mode.MOVE) {
+			if (moveFrom != null) {
+				curr.moveBy(p.x - moveFrom.x, p.y - moveFrom.y);
+				moveFrom = p;
+			}
+		}
+		repaint();
 	}
 
 	/**

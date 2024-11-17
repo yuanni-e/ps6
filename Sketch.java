@@ -16,6 +16,10 @@ public class Sketch {
         currID++;
     }
 
+    public synchronized TreeMap<Integer, Shape> getShapes() {
+        return shapes;
+    }
+
     //id of most recently created shape that contains keypress at (x, y)
     public synchronized Integer findID(int x, int y){
         Set<Integer> sortedID = shapes.descendingKeySet();

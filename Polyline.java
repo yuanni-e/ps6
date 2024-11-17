@@ -26,9 +26,10 @@ public class Polyline implements Shape {
 		this.color = color;
 	}
 
-	public List<Point> getPoints() {
-		return points;
+	public void addPoint(int x, int y) {
+		points.add(new Point(x, y));
 	}
+
 
 	@Override
 	public void moveBy(int dx, int dy) {
