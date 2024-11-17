@@ -275,7 +275,7 @@ public class Editor extends JFrame {
 			curr = null; drawFrom = null;
 		}
 		if(mode == Editor.Mode.MOVE){
-			moveFrom = null;
+			moveFrom = null; movingId = -1;
 		}
 	}
 
