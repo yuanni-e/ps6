@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -64,13 +65,16 @@ public class EditorCommunicator extends Thread {
 	}
 
 	//method for move request
-	public synchronized void move(Integer id){
-		send("moving " + id);
+	public synchronized void move(Integer id, Integer mX, Integer mY){
+		send("moving " + id + " by " + mX + ", " + mY);
 	}
 
+	//method for drag request
+	public synchronized void drag(Integer id) {send("drag " + id);}
+
 	//method for recolor request
-	public synchronized void recolor(Integer id){
-		send("recoloring " + id);
+	public synchronized void recolor(Integer id, Color color){
+		send("recolor " + id + color.getRGB());
 	}
 	
 }
