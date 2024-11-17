@@ -170,6 +170,12 @@ public class Editor extends JFrame {
 	 */
 	public void drawSketch(Graphics g) {
 		// TODO: YOUR CODE HERE
+		for(Integer i : sketch.getShapes().descendingKeySet()){
+			sketch.getShapes().get(i).draw(g);
+		}
+		if(curr != null){
+			curr.draw(g);
+		}
 	}
 
 	// Helpers for event handlers
@@ -264,6 +270,13 @@ public class Editor extends JFrame {
 	 */
 	private void handleRelease() {
 		// TODO: YOUR CODE HERE
+		if(mode == Editor.Mode.DRAW){
+			comm.addShape(curr);
+			curr = null; drawFrom = null;
+		}
+		if(mode == Editor.Mode.MOVE){
+			moveFrom = null;
+		}
 	}
 
 	public static void main(String[] args) {
