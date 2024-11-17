@@ -204,23 +204,18 @@ public class Editor extends JFrame {
 				drawFrom = p;
 			}
 		}
-		else if (mode == Editor.Mode.MOVE) {
-			//move if clicked in shape
-			if (curr.contains(p.x, p.y)) {
+		if(sketch.findID(p.x, p.y) >= 0) {
+			movingId = sketch.findID(p.x, p.y);
+			if (mode == Editor.Mode.MOVE) {
+				//request starting a drag
+				comm.drag(movingId);
 				moveFrom = p;
-			}
-		}
-
-		else if (mode == Editor.Mode.RECOLOR) {
-			//recolor
-			if (curr.contains(p.x, p.y)) {
-				curr.setColor(color);
-			}
-		}
-		else if (mode == Editor.Mode.DELETE) {
-			//delete
-			if (curr.contains(p.x, p.y)) {
-				curr = null;
+			} else if (mode == Editor.Mode.RECOLOR) {
+				//request recolor
+				comm.recolor(movingId);
+			} else if (mode == Editor.Mode.DELETE) {
+				//request delete
+				comm.delete(movingId);
 			}
 		}
 		repaint();
@@ -253,7 +248,8 @@ public class Editor extends JFrame {
 		}
 		else if (mode == Editor.Mode.MOVE) {
 			if (moveFrom != null) {
-				curr.moveBy(p.x - moveFrom.x, p.y - moveFrom.y);
+				comm.move(movingId, p.x - moveFrom.x, p.y - moveFrom.y);
+				//curr.moveBy(p.x - moveFrom.x, p.y - moveFrom.y);
 				moveFrom = p;
 			}
 		}
