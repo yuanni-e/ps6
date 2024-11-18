@@ -66,14 +66,21 @@ public class Polyline implements Shape {
 		int[] xVals = new int[points.size()];
 		int[] yVals = new int[points.size()];
 		for(int i = 0; i < points.size(); i++){
-			xVals[i] = points.get(i).x;
-			yVals[i] = points.get(i).y;
+			xVals[i] = (int)points.get(i).getX();
+			yVals[i] = (int)points.get(i).getY();
 		}
 		g.drawPolyline(xVals, yVals, points.size());
 	}
 
 	@Override
 	public String toString() {
-		return "polyline "+points+" "+color.getRGB();
+		String p = "polyline ";
+		for (Point point : points){
+			p += (int)point.getX() + " ";
+			p += (int)point.getY() + " ";
+		}
+		p += color.getRGB();
+
+		return p;
 	}
 }
