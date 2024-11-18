@@ -189,35 +189,33 @@ public class Editor extends JFrame {
 	 */
 	private void handlePress(Point p) {
 		// TODO: YOUR CODE HERE
-		if (mode == Editor.Mode.DRAW) {
-			//draw new shape and set drawFrom
-			if(shapeType.equals("ellipse")) {
+		if (mode == Editor.Mode.DRAW) { //if in drawing mode:
+			//initialize curr as a new shape and set drawFrom to the mousepress
+			if(shapeType.equals("ellipse")) { //if ellipse selected as shape, set curr to new ellipse
 				curr = new Ellipse(p.x, p.y, color);
 				drawFrom = p;
 			}
-			if(shapeType.equals("rectangle")) {
+			if(shapeType.equals("rectangle")) { //if rectangle selected as shape, set curr to new rectangle
 				curr = new Rectangle(p.x, p.y, color);
 				drawFrom = p;
 			}
-			if(shapeType.equals("freehand")) {
-				List<Point> line = new ArrayList<>();
+			if(shapeType.equals("freehand")) { //if freehand selected as shape, set curr to new polyline
+				List<Point> line = new ArrayList<>(); //initialize list of points to construct a new polyline from
 				line.add(new Point(p.x, p.y));
 				curr = new Polyline(line, color);
 				drawFrom = p;
 			}
-			if(shapeType.equals("segment")) {
+			if(shapeType.equals("segment")) { //if segment selected as shape, set curr to new segment
 				curr = new Segment(p.x, p.y, color);
 				drawFrom = p;
 			}
 		}
+		//check that press occurs on valid shape if not in drawing mode:
 		if(sketch.findID(p.x, p.y) != null && sketch.findID(p.x, p.y) >= 0) {
-			//System.out.println("hi");
 			int id = sketch.findID(p.x, p.y);
 			if (mode == Editor.Mode.MOVE) {
-				//request starting a drag
+				//set the movingId and drawFrom to the point pressed
 				movingId = sketch.findID(p.x, p.y);
-				//comm.move(movingId, 0, 0);
-				//comm.drag(movingId);
 				moveFrom = p;
 			} else if (mode == Editor.Mode.RECOLOR) {
 				//request recolor
@@ -236,12 +234,10 @@ public class Editor extends JFrame {
 	 * in moving mode, (request to) drag the object
 	 */
 	private void handleDrag(Point p) {
-		// TODO: YOUR CODE HERE
 		// In drawing mode, revise the shape as it is stretched out
-		// In moving mode, shift the object and keep track of where next step is from
-		// Be sure to refresh the canvas (repaint) if the appearance has changed
 		if (mode == Editor.Mode.DRAW) {
-			//draw
+			//revise the shapes being drawn by either setting the corners (rectangle + ellipse), ends (segment), or adding a new point (polyline)
+			//check which shape is being drawn by checking instanceof for shape in curr
 			if (curr instanceof Rectangle) {
 				((Rectangle) curr).setCorners(drawFrom.x, drawFrom.y, p.x, p.y);
 			}
@@ -255,14 +251,14 @@ public class Editor extends JFrame {
 				((Polyline) curr).addPoint(p.x, p.y);
 			}
 		}
+		//if moving mode, shift the object and keep track of where next step is from
 		else if (mode == Editor.Mode.MOVE) {
-			if (moveFrom != null && movingId != -1) {
-				comm.move(movingId, p.x - moveFrom.x, p.y - moveFrom.y);
-				//curr.moveBy(p.x - moveFrom.x, p.y - moveFrom.y);
-				moveFrom = p;
+			if (moveFrom != null && movingId != -1) { //check that shape being moved is valid and that starting point for move has been defined
+				comm.move(movingId, p.x - moveFrom.x, p.y - moveFrom.y); //request for move
+				moveFrom = p; //set move from to current point in case the shape is moved again
 			}
 		}
-		repaint();
+		repaint(); //refresh canvas for new changes
 	}
 
 	/**
@@ -273,16 +269,19 @@ public class Editor extends JFrame {
 	private void handleRelease() {
 		// TODO: YOUR CODE HERE
 		if (mode == Editor.Mode.DRAW){
-			comm.add(curr);
+			comm.add(curr); //request for shape in curr to be added into master sketch
+			//reset variables
 			curr = null;
 			drawFrom = null;
 		}
 		else if (mode == Editor.Mode.MOVE){
+			//reset variables for moving
 			moveFrom = null;
 			movingId = -1;
 		}
 	}
 
+	//starts the editor
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
