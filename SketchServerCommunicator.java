@@ -43,10 +43,9 @@ public class SketchServerCommunicator extends Thread {
 			send("This is what the sketch looks like now: ");
 			for (int i = 0; i < server.getSketch().getShapes().size(); i++){
 				if (server.getSketch().getShapes().get(i) != null){
-					s += server.getSketch().getShapes().get(i).toString() + ", ";
+					send("add " + server.getSketch().getShapes().get(i));
 				}
 			}
-			send(s);
 
 			// Keep getting and handling messages from the client
 			// TODO: YOUR CODE HERE

@@ -65,34 +65,29 @@ public class EditorCommunicator extends Thread {
 		}
 	}	
 
+
 	// Send editor requests to the server
 	// TODO: YOUR CODE HERE
 
 	//method for add request
-	public synchronized void add(Shape shape){
+	public void add(Shape shape){
 		send("add " + shape);
 	}
 
 	//method for delete request
-	public synchronized void delete(Integer id){
+	public void delete(Integer id){
 		send("delete " + id);
 	}
 
-
 	//method for move request
-	public synchronized void move(Integer id, Integer mX, Integer mY){
+	public void move(Integer id, Integer mX, Integer mY){
 		send("move " + id  + " " + mX + " " + mY);
 	}
 
 	//method for recolor request
-	public synchronized void recolor(Integer id, Color color){
+	public  void recolor(Integer id, Color color){
 		send("recolor " + id + " " + color.getRGB());
 	}
-
-	//method for drag request
-//	public synchronized void drag(Integer id){
-//		send("drag " + id);
-//	}
 
 
 }
