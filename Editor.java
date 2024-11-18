@@ -199,23 +199,25 @@ public class Editor extends JFrame {
 				curr = new Rectangle(p.x, p.y, color);
 				drawFrom = p;
 			}
-			if(shapeType.equals("polyline")) {
+			if(shapeType.equals("freehand")) {
 				List<Point> line = new ArrayList<>();
 				line.add(new Point(p.x, p.y));
 				curr = new Polyline(line, color);
 				drawFrom = p;
 			}
 			if(shapeType.equals("segment")) {
-				curr = new Ellipse(p.x, p.y, color);
+				curr = new Segment(p.x, p.y, color);
 				drawFrom = p;
 			}
 		}
-		if(sketch.findID(p.x, p.y) >= 0) {
+		if(sketch.findID(p.x, p.y) != null && sketch.findID(p.x, p.y) >= 0) {
+			//System.out.println("hi");
 			int id = sketch.findID(p.x, p.y);
 			if (mode == Editor.Mode.MOVE) {
 				//request starting a drag
 				movingId = sketch.findID(p.x, p.y);
-				comm.drag(movingId);
+				//comm.move(movingId, 0, 0);
+				//comm.drag(movingId);
 				moveFrom = p;
 			} else if (mode == Editor.Mode.RECOLOR) {
 				//request recolor
@@ -270,12 +272,14 @@ public class Editor extends JFrame {
 	 */
 	private void handleRelease() {
 		// TODO: YOUR CODE HERE
-		if(mode == Editor.Mode.DRAW){
-			comm.addShape(curr);
-			curr = null; drawFrom = null;
+		if (mode == Editor.Mode.DRAW){
+			comm.add(curr);
+			curr = null;
+			drawFrom = null;
 		}
-		if(mode == Editor.Mode.MOVE){
-			moveFrom = null; movingId = -1;
+		else if (mode == Editor.Mode.MOVE){
+			moveFrom = null;
+			movingId = -1;
 		}
 	}
 
