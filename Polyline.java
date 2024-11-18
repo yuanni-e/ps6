@@ -16,16 +16,25 @@ public class Polyline implements Shape {
 	private List<Point> points;		// points (x1, y1), (x2, y2), (x3, y3), ... to be connected
 	private Color color;
 
+	/**
+	 * An "empty" polyline, with no points inside list of points
+	 */
 	public Polyline(Color color){
 		points = new ArrayList<Point>();
 		this.color = color;
 	}
 
+	/**
+	 * A polyline with a nonempty list of connected points
+	 */
 	public Polyline(List<Point> points, Color color){
 		this.points = points;
 		this.color = color;
 	}
 
+	/**
+	 * Add a new point into the list of points, points
+	 */
 	public void addPoint(int x, int y) {
 		points.add(new Point(x, y));
 	}
@@ -53,7 +62,7 @@ public class Polyline implements Shape {
 		boolean inLine = false;
 		for(int i = 0; i < points.size() - 1; i++){
 			Segment seg = new Segment(points.get(i).x, points.get(i).y, points.get(i+1).x, points.get(i+1).y, color);
-			if(seg.contains(x, y)){
+			if(seg.contains(x, y)){ //use the contains method from segment, note that the pre-determined contraint used in pointToSegmentDistance (3) in Segment also applies here
 				inLine = true;
 			}
 		}
