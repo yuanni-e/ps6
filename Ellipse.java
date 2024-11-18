@@ -12,7 +12,7 @@ import java.awt.Graphics;
  */
 public class Ellipse implements Shape {
 	private int x1, y1, x2, y2;		// upper left and lower right
-	private Color color;
+	private Color color;			// color of ellipse
 
 	/**
 	 * An "empty" ellipse, with only one point set so far
