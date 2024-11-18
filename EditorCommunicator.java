@@ -47,6 +47,15 @@ public class EditorCommunicator extends Thread {
 		try {
 			// Handle messages
 			// TODO: YOUR CODE HERE
+			//get line from server
+			String line;
+			while ((line = in.readLine()) != null){
+				System.out.println(line);
+				Parse parse = new Parse();
+				parse.parseLine(line, editor.getSketch());
+				//out prints to client
+				//sout prints to server
+			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -59,22 +68,31 @@ public class EditorCommunicator extends Thread {
 	// Send editor requests to the server
 	// TODO: YOUR CODE HERE
 
+	//method for add request
+	public synchronized void add(Shape shape){
+		send("add " + shape);
+	}
+
 	//method for delete request
 	public synchronized void delete(Integer id){
-		send("deleting " + id);
+		send("delete " + id);
 	}
+
 
 	//method for move request
 	public synchronized void move(Integer id, Integer mX, Integer mY){
-		send("moving " + id + " by " + mX + ", " + mY);
+		send("move " + id  + " " + mX + " " + mY);
 	}
-
-	//method for drag request
-	public synchronized void drag(Integer id) {send("drag " + id);}
 
 	//method for recolor request
 	public synchronized void recolor(Integer id, Color color){
-		send("recolor " + id + color.getRGB());
+		send("recolor " + id + " " + color.getRGB());
 	}
-	
+
+	//method for drag request
+//	public synchronized void drag(Integer id){
+//		send("drag " + id);
+//	}
+
+
 }
