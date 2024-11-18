@@ -1,11 +1,11 @@
-import java.awt.*;
+mport java.awt.*;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 public class Sketch {
     private TreeMap<Integer, Shape> shapes;
-    Integer currID = 0;
+    private static Integer currID = 0;
 
     public Sketch() {
         shapes = new TreeMap<>();
@@ -35,9 +35,7 @@ public class Sketch {
         shapes.get(id).moveBy(x, y);
     }
 
-    public synchronized void recolor(Integer id, Color color){
-        shapes.get(id).setColor(color);
-    }
+    public synchronized void recolor(Integer id, Color color){ shapes.get(id).setColor(color); }
 
     public synchronized void delete(Integer id){
         shapes.remove(id);
